@@ -1,18 +1,29 @@
 package galerie.entity;
+
+import java.util.LinkedList;
 import java.util.List;
-import javax.persistence.*;
-import lombok.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@ToString
+@Entity // Une entité JPA
+public class Artiste extends Personne {
 
-@Getter @Setter @RequiredArgsConstructor @ToString
-@Entity
-public class Artiste extends Personne{
+    @Column(unique = true)
+    @NonNull
+    private String biographie;
 
-    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String bibliographie;
-
-    @OneToMany(mappedBy = "peintre", cascade= CascadeType.PERSIST)
-    private List<Tableau> oeuvres;
+    @OneToMany(mappedBy = "auteur")
+    List<Tableau> oeuvres = new LinkedList<>();
 }

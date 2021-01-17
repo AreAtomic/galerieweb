@@ -9,17 +9,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
-public class GalerieRepositoryTest {
+public class PersonneRepositoryTest {
 
     @Autowired
-    private GalerieRepository galerieDAO;
+    private PersonneRepository personneDAO;
 
     @Test
-    @Sql("test-data-galerie.sql") // Chargement spé pour un test
+    @Sql("test-data-personne.sql") // Chargement spé pour un test
     public void onSaitCompterLesEnregistrements() {
 
         int combienDansLeJeuDeTest = 1;
-        long nombre = galerieDAO.count();
+        long nombre = personneDAO.count();
         assertEquals(combienDansLeJeuDeTest, nombre, "On doit trouver 1 galerie");
     }
 

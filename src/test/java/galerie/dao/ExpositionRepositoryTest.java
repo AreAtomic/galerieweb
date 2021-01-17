@@ -9,18 +9,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
-public class GalerieRepositoryTest {
+public class ExpositionRepositoryTest {
 
     @Autowired
-    private GalerieRepository galerieDAO;
+    private ExpositionRepository expositionDAO;
 
     @Test
-    @Sql("test-data-galerie.sql") // Chargement spé pour un test
+    @Sql("test-data-expo.sql") // Chargement spé pour un test
     public void onSaitCompterLesEnregistrements() {
 
         int combienDansLeJeuDeTest = 1;
-        long nombre = galerieDAO.count();
-        assertEquals(combienDansLeJeuDeTest, nombre, "On doit trouver 1 galerie");
+        long nombre = expositionDAO.count();
+
+        assertEquals(combienDansLeJeuDeTest, nombre, "On doit trouver 1 expo");
     }
 
 }

@@ -1,34 +1,58 @@
 package galerie.entity;
+
+import java.util.LinkedList;
 import java.util.List;
-import javax.persistence.*;
-import lombok.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
-@Getter @Setter @NoArgsConstructor @RequiredArgsConstructor @ToString
-@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@ToString
+@Entity // Une entité JPA
 public class Tableau {
-    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true)
     @NonNull
     private String titre;
 
+    @Column(unique = true)
     @NonNull
     private String support;
 
+    @Column(unique = true)
     @NonNull
-    private int largeur;
+    private Integer largeur;
 
+    @Column(unique = true)
     @NonNull
-    private int hauteur;
+    private Integer hauteur;
 
-    @ManyToMany(mappedBy = "accrochage")
-    private List<Exposition> organisateur;
+    @ManyToMany
+    List<Exposition> accrochage = new LinkedList<>();
 
     @OneToOne
-    private Transaction vente;
+    Transaction vendu;
 
-    @ManyToOne(optional = false)
-    @NonNull
-    private Artiste peintre;
+    @ManyToOne
+    Artiste auteur;
+
 }

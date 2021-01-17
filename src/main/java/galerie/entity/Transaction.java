@@ -1,31 +1,52 @@
 package galerie.entity;
-import java.util.Date;
-import javax.persistence.*;
-import lombok.*;
 
+import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter @NoArgsConstructor @RequiredArgsConstructor @ToString
-@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@ToString
+@Entity // Une entité JPA
 public class Transaction {
-    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true)
     @NonNull
-    private Date venduLe;
+    private LocalDate venduLe;
 
+    @Column(unique = true)
     @NonNull
     private float prixVente;
 
     @ManyToOne
-    @NonNull
-    private Personne client;
+    Exposition lieuDeVente;
 
-    @OneToOne (cascade = CascadeType.ALL)
-    @NonNull
-    @JoinColumn  (name = "oeuvre_id", unique = true)
-    private  Tableau oeuvre;
+    @OneToOne(mappedBy = "vendu")
+    Tableau oeuvre;
 
     @ManyToOne
-    @NonNull
-    private Exposition lieuDeVente;
+    Personne client;
+
+    public float getPrixVente() { return prixVente;
+    }
+
+    public LocalDate getVenduLe() {return venduLe;
+    }
 }

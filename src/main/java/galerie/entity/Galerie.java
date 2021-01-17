@@ -1,4 +1,6 @@
 package galerie.entity;
+
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.*;
 import lombok.*;
@@ -6,34 +8,37 @@ import lombok.*;
 // Un exemple d'entité
 // On utilise Lombok pour auto-générer getter / setter / toString...
 // cf. https://examples.javacodegeeks.com/spring-boot-with-lombok/
-@Getter @Setter @NoArgsConstructor @RequiredArgsConstructor @ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@ToString
 @Entity // Une entité JPA
 public class Galerie {
-    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique=true)
+    @Column(unique = true)
     @NonNull
     private String nom;
 
-    @Column(unique=true)
+    @Column(unique = true)
     @NonNull
     private String adresse;
 
-    @OneToMany(mappedBy = "oraganisateur", cascade= CascadeType.PERSIST)
-    @ToString.Exclude
-    private List<Exposition> expositions;
+    @OneToMany(mappedBy = "organisateur")
+    List<Exposition> evenements;
 
-    public int ChiffreAffaire(int annee){
-        int chiffreAffaire = 0;
-
-        for(Exposition e : expositions){
-            if(e.getDebut().getYear()==annee){
-                chiffreAffaire+=e.chiffreAffaire();
+    public float CAannuel(int annee){
+        float ca = 0;
+        for (Exposition e : evenements){
+            LocalDate d = e.getDebut();
+            if (d.isAfter(LocalDate.of(annee, 1, 1)) && d.isBefore(LocalDate.of(annee, 12, 31))){
+                ca+=e.CA();
             }
         }
-        return chiffreAffaire;
+        return ca;
     }
-
-
 }
